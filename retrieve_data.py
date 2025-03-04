@@ -3,6 +3,9 @@ from firebase_admin import credentials, firestore
 from pycoingecko import CoinGeckoAPI
 from datetime import datetime
 import os
+import pytz
+
+br_tz = pytz.timezone("America/Sao_Paulo")
 
 def initialize_firebase():
     """Inicializa o Firebase se ainda não estiver inicializado."""
@@ -27,7 +30,7 @@ def get_cotation(cripto, value, type_, currency):
         price = price_data[cripto][currency]
 
         if (type_ == "alta" and price >= value) or (type_ != "alta" and price <= value):
-            return price, datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+            return price, datetime.now(br_tz).strftime("%d/%m/%Y %H:%M:%S")
 
     except Exception as e:
         print(f"Erro ao obter cotação: {e}")
@@ -63,7 +66,7 @@ def change_enviado_field(doc_id):
     doc_ref = db.collection("alerts").document(doc_id)
     try:
         doc_ref.update({"enviado": True})
-        doc_ref.update({"data_envio": datetime.now().strftime("%d/%m/%Y %H:%M:%S")})
+        doc_ref.update({"data_envio": datetime.now(br_tz).strftime("%d/%m/%Y %H:%M:%S")})
     except Exception as e:
         print(f"Erro ao atualizar os campos enviado e/ou data_envio: {e}")
         

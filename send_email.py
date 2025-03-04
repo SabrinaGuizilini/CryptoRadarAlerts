@@ -5,11 +5,15 @@ import smtplib
 import ssl
 from datetime import datetime
 import os
+import pytz
+
+br_tz = pytz.timezone("America/Sao_Paulo")
 
 password = os.getenv("EMAIL_PASSWORD")
 from_email = 'cryptoradaroficial@gmail.com'
 
 def send_emails(filtered_alerts):
+    """Envia os e-mails de alerta."""
     success_count = 0
     fail_count = 0
 
@@ -118,7 +122,7 @@ def send_emails(filtered_alerts):
         print(f"Erro ao conectar ao servidor SMTP: {e}")
         return
 
-    print(f"\nData e hora: {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}")
+    print(f"\nData e hora: {datetime.now(br_tz).strftime("%d/%m/%Y %H:%M:%S")}")
     print(f"Total de e-mails enviados: {success_count}")
     print(f"Total de falhas no envio: {fail_count}")
 

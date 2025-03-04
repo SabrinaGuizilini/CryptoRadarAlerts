@@ -2,8 +2,8 @@ name: Executar send_email.py
 
 on:
   schedule:
-    - cron: "0 9,15,21 * * *"  # Executa às 09h, 15h e 21h UTC (ajuste conforme necessário)
-  workflow_dispatch:  # Permite rodar manualmente pelo GitHub Actions
+    - cron: "0 12,18,0 * * *"  # Executa às 09h, 15h e 21h UTC
+  workflow_dispatch:
 
 jobs:
   send-emails:
@@ -16,7 +16,7 @@ jobs:
       - name: 🛠️ Configurar Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.9.1'
+          python-version: '3.9.2'
 
       - name: 📦 Instalar dependências
         run: |
