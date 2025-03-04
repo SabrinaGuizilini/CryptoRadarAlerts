@@ -1,0 +1,35 @@
+name: Executar send_email.py
+
+on:
+  schedule:
+    - cron: "0 9,15,21 * * *"  # Executa às 09h, 15h e 21h UTC (ajuste conforme necessário)
+  workflow_dispatch:  # Permite rodar manualmente pelo GitHub Actions
+
+jobs:
+  send-emails:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout do código
+        uses: actions/checkout@v3
+
+      - name: 🛠️ Configurar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9.1'
+
+      - name: 📦 Instalar dependências
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: 🔑 Restaurar credenciais do Firebase
+        run: |
+          echo "$FIREBASE_CREDENTIALS" | base64 -d > ~/firebase.json
+        env:
+          FIREBASE_CREDENTIALS: ${{ secrets.FIREBASE_CREDENTIALS }}
+
+      - name: 📧 Executar script de envio de e-mails
+        env:
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+        run: python send_email.py
