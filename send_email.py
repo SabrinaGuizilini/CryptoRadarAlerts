@@ -122,7 +122,7 @@ def send_emails(filtered_alerts):
         print(f"Erro ao conectar ao servidor SMTP: {e}")
         return
 
-    print(f"\nData e hora: {datetime.now(br_tz).strftime("%d/%m/%Y %H:%M:%S")}")
+    print(f"\nData e hora: {datetime.now(br_tz).strftime('%d/%m/%Y %H:%M:%S')}")
     print(f"Total de e-mails enviados: {success_count}")
     print(f"Total de falhas no envio: {fail_count}")
 
